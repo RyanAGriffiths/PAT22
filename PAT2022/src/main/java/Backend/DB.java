@@ -34,13 +34,13 @@ public class DB {
 		connection = DriverManager.getConnection(url, username, password);
 		System.out.println("DB: Database connection established");
 	}
-        
+        //insert update or delete
 	public void update(String update) throws SQLException {
 		statement = connection.prepareStatement(update);
 		statement.executeUpdate();
 		statement.close();
 	}
-
+        //select
 	public ResultSet query(String stmt) throws SQLException {
 		statement = connection.prepareStatement(stmt);
 		result = statement.executeQuery();
