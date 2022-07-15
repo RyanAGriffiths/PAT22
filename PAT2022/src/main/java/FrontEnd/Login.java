@@ -4,6 +4,14 @@
  */
 package FrontEnd;
 
+import Backend.User;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ryang
@@ -35,8 +43,9 @@ public class Login extends javax.swing.JFrame
         passwordLabel = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
         passwordtextField = new javax.swing.JTextField();
-        registerButton = new javax.swing.JButton();
+        loginButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        registerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,13 +76,13 @@ public class Login extends javax.swing.JFrame
             }
         });
 
-        registerButton.setFont(new java.awt.Font("Futura Condensed Extra", 0, 12)); // NOI18N
-        registerButton.setText("Login");
-        registerButton.addActionListener(new java.awt.event.ActionListener()
+        loginButton.setFont(new java.awt.Font("Futura Condensed Extra", 0, 12)); // NOI18N
+        loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                registerButtonActionPerformed(evt);
+                loginButtonActionPerformed(evt);
             }
         });
 
@@ -87,17 +96,22 @@ public class Login extends javax.swing.JFrame
             }
         });
 
+        registerButton.setFont(new java.awt.Font("Futura Condensed Extra", 0, 12)); // NOI18N
+        registerButton.setText("Register");
+        registerButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                registerButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(94, 94, 94)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,7 +128,14 @@ public class Login extends javax.swing.JFrame
                         .addComponent(logoLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(123, 123, 123)
-                        .addComponent(GetDakLabel)))
+                        .addComponent(GetDakLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(149, 149, 149)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(94, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -132,11 +153,13 @@ public class Login extends javax.swing.JFrame
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordLabel)
                     .addComponent(passwordtextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(registerButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(loginButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addGap(47, 47, 47))
         );
 
         pack();
@@ -147,11 +170,41 @@ public class Login extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordtextFieldActionPerformed
 
-    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_registerButtonActionPerformed
-    {//GEN-HEADEREND:event_registerButtonActionPerformed
-        //if username and password match pair in data base, dispose() and show explore page
-     
-    }//GEN-LAST:event_registerButtonActionPerformed
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_loginButtonActionPerformed
+    {//GEN-HEADEREND:event_loginButtonActionPerformed
+        try
+        {
+            //if username and password match pair in data base, dispose() and show explore page
+            Scanner sc = new Scanner(new File("C:\\Users\\Ryang\\Documents\\NetBeansProjects\\PAT2022\\src\\main\\resources\\users.txt"));
+            while (sc.hasNext())
+            {
+                String ln = sc.next();
+                Scanner lsc = new Scanner(ln).useDelimiter("#");
+                String username = lsc.next();
+                String password = lsc.next();
+                lsc.close();
+
+                if (usernameTextField.getText().equals(username))
+                {
+                    if (passwordtextField.getText().equals(password))
+                    {
+                        dispose();
+                        new MainScreen().setVisible(true);
+                    } else
+                    {
+                        JOptionPane.showMessageDialog(null, "Please check password", "ERROR!", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else
+                {
+                    JOptionPane.showMessageDialog(null, "Please check username", "ERROR!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            sc.close();
+        } catch (FileNotFoundException ex)
+        {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cancelButtonActionPerformed
     {//GEN-HEADEREND:event_cancelButtonActionPerformed
@@ -162,6 +215,18 @@ public class Login extends javax.swing.JFrame
     {//GEN-HEADEREND:event_usernameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
+
+    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_registerButtonActionPerformed
+    {//GEN-HEADEREND:event_registerButtonActionPerformed
+        // TODO add your handling code here:
+        String username = usernameTextField.getText();
+        String password = passwordtextField.getText();
+        User u = new User(username, password);
+        u.logUser(username, password);
+
+        dispose();
+        new MainScreen().setVisible(true);
+    }//GEN-LAST:event_registerButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,6 +276,7 @@ public class Login extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel GetDakLabel;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JButton loginButton;
     private javax.swing.JLabel logoLabel;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField passwordtextField;

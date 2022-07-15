@@ -11,17 +11,29 @@ package Backend;
 public class Exercise
 {
 
+    private int id;
+    private String name;
     private String muscleGroup;
     private String difficulty;
-    private int targetAge;
-    private float targetWeight;
+    private String desc;
 
-    public Exercise(String muscleGroup, String difficulty, int targetAge, float targetWeight)
+    public Exercise(int id, String name, String muscleGroup, String difficulty, String desc)
     {
+        this.id = id;
+        this.name = name;
         this.muscleGroup = muscleGroup;
         this.difficulty = difficulty;
-        this.targetAge = targetAge;
-        this.targetWeight = targetWeight;
+        this.desc = desc;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     public String getMuscleGroup()
@@ -44,47 +56,29 @@ public class Exercise
         this.difficulty = difficulty;
     }
 
-    public int getTargetAge()
+    public int getId()
     {
-        return targetAge;
+        return id;
     }
 
-    public void setTargetAge(int targetAge)
+    public void setId(int id)
     {
-        this.targetAge = targetAge;
+        this.id = id;
     }
 
-    public float getTargetWeight()
+    public String getDesc()
     {
-        return targetWeight;
+        return desc;
     }
 
-    public void setTargetWeight(float targetWeight)
+    public void setDesc(String desc)
     {
-        this.targetWeight = targetWeight;
+        this.desc = desc;
     }
 
-    public boolean withinTargetAge(int age)
+    @Override
+    public String toString()
     {
-        if (age < targetAge - 10 || age > targetAge + 10)
-        {
-            return false;
-        } else
-        {
-            return true;
-        }
+        return "Exercise{" + "id=" + id + ", name=" + name + ", muscleGroup=" + muscleGroup + ", difficulty=" + difficulty + ", desc=" + desc + '}';
     }
-    
-     public boolean withinTargetWeight(float weight)
-    {
-        if (weight < targetWeight - 15 || weight > targetWeight + 15)
-        {
-            return false;
-        } else
-        {
-            return true;
-        }
-    }
-     
-     
 }

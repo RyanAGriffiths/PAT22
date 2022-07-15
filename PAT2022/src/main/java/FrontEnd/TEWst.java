@@ -4,33 +4,42 @@
  */
 package FrontEnd;
 
-import java.awt.GridLayout;
-import javax.swing.JButton;
+import Backend.ExerciseManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 
 /**
  *
  * @author Ryang
  */
-public class NewJFrame extends javax.swing.JFrame
+public class TEWst extends javax.swing.JFrame
 {
 
     /**
-     * Creates new form NewJFrame
+     * Creates new form TEWst
      */
-    public NewJFrame()
+    public TEWst()
     {
         initComponents();
-        panel.setLayout(new GridLayout(4, 3, 5, 5));
-        panel.add(new JButton("One"));
-        panel.add(new JButton("Two"));
-        panel.add(new JButton("Three"));
-        panel.add(new JButton("Four"));
-        panel.add(new JButton("Five"));
-        panel.add(new JButton("Six"));
-        panel.add(new JButton("Seven"));
-        panel.add(new JButton("Eight"));
-        panel.add(new JButton("Nine"));
-        panel.add(new JButton("Ten"));
+        try
+        {
+            ExerciseManager em = new ExerciseManager();
+            
+            DefaultListModel<String> listMod = new DefaultListModel<>();
+            listMod.addAll(em.getExerciseNames());
+            
+            exerciseList.setModel(listMod);
+            
+        } catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(TEWst.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(TEWst.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -43,21 +52,34 @@ public class NewJFrame extends javax.swing.JFrame
     private void initComponents()
     {
 
-        panel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        exerciseList = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panel.setLayout(new java.awt.GridLayout());
+        exerciseList.setModel(new javax.swing.AbstractListModel<String>()
+        {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(exerciseList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(185, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(97, 97, 97))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         pack();
@@ -85,16 +107,16 @@ public class NewJFrame extends javax.swing.JFrame
             }
         } catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TEWst.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TEWst.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TEWst.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TEWst.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -103,12 +125,13 @@ public class NewJFrame extends javax.swing.JFrame
         {
             public void run()
             {
-                new NewJFrame().setVisible(true);
+                new TEWst().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel panel;
+    private javax.swing.JList<String> exerciseList;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

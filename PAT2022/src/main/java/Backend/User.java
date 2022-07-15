@@ -4,64 +4,62 @@
  */
 package Backend;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Ryang
  */
 public class User
 {
+    private int ID;
     private String username;
     private String password;
-    private float weight;
-    private int age;
-    private int userID;
 
-    public User(String username, String password, float weight, int age, int userID)
+    public User(int ID, String username, String password)
     {
+        this.ID = ID;
         this.username = username;
         this.password = password;
-        this.weight = weight;
-        this.age = age;
-        this.userID = userID;
+    }
+
+    public int getID()
+    {
+        return ID;
+    }
+
+    public void setID(int ID)
+    {
+        this.ID = ID;
+    }
+
+    public String getUsername()
+    {
+        return username;
     }
 
     public void setUsername(String username)
     {
         this.username = username;
     }
-    
+
+    public String getPassword()
+    {
+        return password;
+    }
+
     public void setPassword(String password)
     {
         this.password = password;
     }
 
-    public float getWeight()
+    @Override
+    public String toString()
     {
-        return weight;
-    }
-
-    public void setWeight(float weight)
-    {
-        this.weight = weight;
-    }
-
-    public int getAge()
-    {
-        return age;
-    }
-
-    public void setAge(int age)
-    {
-        this.age = age;
-    }
-
-    public int getUserID()
-    {
-        return userID;
-    }
-
-    public void setUserID(int userID)
-    {
-        this.userID = userID;
+        return "User{" + "ID=" + ID + ", username=" + username + ", password=" + password + '}';
     }
 }
