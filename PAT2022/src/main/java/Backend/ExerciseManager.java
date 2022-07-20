@@ -16,6 +16,9 @@ public class ExerciseManager
 {
 
     private ArrayList<Exercise> exercises = new ArrayList<>();
+    private ArrayList<Exercise> upper = new ArrayList<>();
+    private ArrayList<Exercise> core = new ArrayList<>();
+    private ArrayList<Exercise> lower = new ArrayList<>();
 
     public ExerciseManager() throws ClassNotFoundException, SQLException
     {
@@ -59,4 +62,8 @@ public class ExerciseManager
         return output;
     }
 
+    public static void addToArray()
+    {
+        
+    }
 }

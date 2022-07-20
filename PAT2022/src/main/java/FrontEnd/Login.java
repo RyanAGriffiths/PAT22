@@ -219,13 +219,13 @@ public class Login extends javax.swing.JFrame
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_registerButtonActionPerformed
     {//GEN-HEADEREND:event_registerButtonActionPerformed
         // TODO add your handling code here:
-        String username = usernameTextField.getText();
-        String password = passwordtextField.getText();
-        User u = new User(username, password);
-        u.logUser(username, password);
-
-        dispose();
-        new MainScreen().setVisible(true);
+//        String username = usernameTextField.getText();
+//        String password = passwordtextField.getText();
+//        User u = new User(username, password);
+//        u.logUser(username, password);
+//
+//        dispose();
+//        new MainScreen().setVisible(true);
     }//GEN-LAST:event_registerButtonActionPerformed
 
     /**

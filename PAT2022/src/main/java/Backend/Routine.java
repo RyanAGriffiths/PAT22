@@ -5,67 +5,27 @@
 package Backend;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
  * @author Ryang
  */
-public class Routine extends Exercise
+public class Routine 
 {
-    
-    private int sets;
-    private int reps;
-    private Date length;
-    private String typeOfExercise;
-    
-    public Routine(String muscleGroup, String difficulty, int targetAge, float targetWeight, int inSets, int inReps, Date inLength, String inType)
-    {
-        super(muscleGroup, difficulty, targetAge, targetWeight);
-        this.sets = inSets;
-        this.reps = inReps;
-        this.length = inLength;
-        this.typeOfExercise = inType;
-    }
+    private ArrayList<ExerciseWithSet> ews = new ArrayList<>();
 
-    public int getSets()
+    public Routine()
     {
-        return sets;
-    }
-
-    public void setSets(int sets)
-    {
-        this.sets = sets;
-    }
-
-    public int getReps()
-    {
-        return reps;
-    }
-
-    public void setReps(int reps)
-    {
-        this.reps = reps;
-    }
-
-    public Date getLength()
-    {
-        return length;
-    }
-
-    public void setLength(Date length)
-    {
-        this.length = length;
-    }
-
-    public String getTypeOfExercise()
-    {
-        return typeOfExercise;
-    }
-
-    public void setTypeOfExercise(String typeOfExercise)
-    {
-        this.typeOfExercise = typeOfExercise;
+        
     }
     
-    
+    public ArrayList<String> getExerciseNames(){
+        ArrayList<String> out = new ArrayList<>();
+        for(ExerciseWithSet e: ews){
+            out.add(e.getName() + e.getSets() + " sets" + e.getReps() + " reps");
+        }
+        return out;
+    }
+
 }
