@@ -6,6 +6,8 @@ package FrontEnd;
 
 import Backend.Routine;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
@@ -18,14 +20,21 @@ public class MainScreen extends javax.swing.JFrame
     /**
      * Creates new form MainScreen
      */
-    public MainScreen()
+    public MainScreen() throws ClassNotFoundException
     {
         initComponents();
         Routine r = new Routine();
         DefaultListModel model = new DefaultListModel();
         System.out.println(r.getExerciseNames());
         model.addAll(r.getExerciseNames());
-        ListOfExercises.setModel(model);
+        upperBodyList.setModel(model);
+        
+        //if musclegroup is upper, populate to upperlist
+        //if musclegroup is core, populate to corelist
+        //if musclegroup is lower, populate to lowerlist
+        
+        
+        
     }
 
     /**
@@ -67,7 +76,7 @@ public class MainScreen extends javax.swing.JFrame
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        ListOfExercises = new javax.swing.JList<>();
+        upperBodyList = new javax.swing.JList<>();
         addButton = new javax.swing.JButton();
         exerciseLabel = new javax.swing.JLabel();
         RepSpinner = new javax.swing.JSpinner();
@@ -76,7 +85,7 @@ public class MainScreen extends javax.swing.JFrame
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList4 = new javax.swing.JList<>();
+        coreList = new javax.swing.JList<>();
         jButton3 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         RepSpinner1 = new javax.swing.JSpinner();
@@ -85,7 +94,7 @@ public class MainScreen extends javax.swing.JFrame
         jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jList5 = new javax.swing.JList<>();
+        lowerBodyList = new javax.swing.JList<>();
         jButton4 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         RepSpinner2 = new javax.swing.JSpinner();
@@ -142,7 +151,7 @@ public class MainScreen extends javax.swing.JFrame
         jLabel11.setText("Select a routine ");
 
         jLabel12.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel12.setText("<html>Select the exercise you    would like to record"); // NOI18N
+        jLabel12.setText("<html>Select the exercise you    would like to record");
 
         jLabel13.setForeground(new java.awt.Color(153, 153, 153));
         jLabel13.setText("Record your session results");
@@ -156,7 +165,7 @@ public class MainScreen extends javax.swing.JFrame
         dateLabel.setText("Date:");
 
         jLabel17.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel17.setText("DD           MM           YY");
+        jLabel17.setText("DD            MM             YY");
 
         jLabel3.setText("Sets");
 
@@ -187,23 +196,25 @@ public class MainScreen extends javax.swing.JFrame
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(49, 49, 49)
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(repsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel13)
-                    .addComponent(dateLabel)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(setsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(daysSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(monthsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(yearsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(36, 36, 36))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel15)
+                        .addComponent(jLabel13)
+                        .addComponent(dateLabel)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel6)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(daysSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                                .addComponent(setsSpinner)
+                                .addComponent(repsSpinner))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(monthsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(yearsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton1)
@@ -218,10 +229,11 @@ public class MainScreen extends javax.swing.JFrame
                     .addComponent(jLabel15)
                     .addComponent(jLabel14))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -229,17 +241,17 @@ public class MainScreen extends javax.swing.JFrame
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(dateLabel)
-                                .addGap(5, 5, 5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel17)
-                                .addGap(2, 2, 2)
+                                .addGap(1, 1, 1)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(daysSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(monthsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(yearsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(setsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel3)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(setsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -267,13 +279,13 @@ public class MainScreen extends javax.swing.JFrame
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
-        ListOfExercises.setModel(new javax.swing.AbstractListModel<String>()
+        upperBodyList.setModel(new javax.swing.AbstractListModel<String>()
         {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(ListOfExercises);
+        jScrollPane2.setViewportView(upperBodyList);
 
         addButton.setText("add");
         addButton.addActionListener(new java.awt.event.ActionListener()
@@ -332,19 +344,20 @@ public class MainScreen extends javax.swing.JFrame
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SetSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
-                .addGap(73, 73, 73)
-                .addComponent(addButton))
+                .addGap(18, 18, 18)
+                .addComponent(addButton)
+                .addGap(55, 55, 55))
         );
 
         jTabbedPane1.addTab("Upper Body", jPanel3);
 
-        jList4.setModel(new javax.swing.AbstractListModel<String>()
+        coreList.setModel(new javax.swing.AbstractListModel<String>()
         {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane4.setViewportView(jList4);
+        jScrollPane4.setViewportView(coreList);
 
         jButton3.setText("add");
 
@@ -362,9 +375,7 @@ public class MainScreen extends javax.swing.JFrame
                 .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton3)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -379,6 +390,9 @@ public class MainScreen extends javax.swing.JFrame
                                 .addComponent(jLabel9)
                                 .addGap(18, 18, 18)
                                 .addComponent(SetSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton3)
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -396,21 +410,29 @@ public class MainScreen extends javax.swing.JFrame
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SetSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addGap(73, 73, 73)
-                .addComponent(jButton3))
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addGap(55, 55, 55))
         );
 
         jTabbedPane1.addTab("Core", jPanel1);
 
-        jList5.setModel(new javax.swing.AbstractListModel<String>()
+        lowerBodyList.setModel(new javax.swing.AbstractListModel<String>()
         {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane5.setViewportView(jList5);
+        jScrollPane5.setViewportView(lowerBodyList);
 
         jButton4.setText("add");
+        jButton4.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Exercises");
 
@@ -426,9 +448,7 @@ public class MainScreen extends javax.swing.JFrame
                 .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton4)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -443,6 +463,9 @@ public class MainScreen extends javax.swing.JFrame
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
                                 .addComponent(SetSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton4)
                         .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
@@ -460,8 +483,9 @@ public class MainScreen extends javax.swing.JFrame
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SetSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addGap(73, 73, 73)
-                .addComponent(jButton4))
+                .addGap(18, 18, 18)
+                .addComponent(jButton4)
+                .addGap(55, 55, 55))
         );
 
         jTabbedPane1.addTab("Lower Body", jPanel2);
@@ -595,8 +619,14 @@ public class MainScreen extends javax.swing.JFrame
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_addButtonActionPerformed
     {//GEN-HEADEREND:event_addButtonActionPerformed
         // TODO add your handling code here:
-        String s = ListOfExercises.getSelectedValue();
+        String s = upperBodyList.getSelectedValue();
+        System.out.println(s);
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton4ActionPerformed
+    {//GEN-HEADEREND:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -638,13 +668,18 @@ public class MainScreen extends javax.swing.JFrame
         {
             public void run()
             {
-                new MainScreen().setVisible(true);
+                try
+                {
+                    new MainScreen().setVisible(true);
+                } catch (ClassNotFoundException ex)
+                {
+                    Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> ListOfExercises;
     private javax.swing.JLabel RepLabel;
     private javax.swing.JLabel RepLabel1;
     private javax.swing.JLabel RepLabel2;
@@ -657,6 +692,7 @@ public class MainScreen extends javax.swing.JFrame
     private javax.swing.JTabbedPane TabbedPane;
     private javax.swing.JButton addButton;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JList<String> coreList;
     private javax.swing.JLabel dateLabel;
     private javax.swing.JSpinner daysSpinner;
     private javax.swing.JLabel exerciseLabel;
@@ -683,8 +719,6 @@ public class MainScreen extends javax.swing.JFrame
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JList<String> jList4;
-    private javax.swing.JList<String> jList5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -699,6 +733,7 @@ public class MainScreen extends javax.swing.JFrame
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane5;
     private javax.swing.JLabel logoLabel;
+    private javax.swing.JList<String> lowerBodyList;
     private javax.swing.JSpinner monthsSpinner;
     private javax.swing.JTextField nameOfRoutineTextField;
     private javax.swing.JButton removeButton;
@@ -707,6 +742,7 @@ public class MainScreen extends javax.swing.JFrame
     private javax.swing.JButton saveButton;
     private javax.swing.JPanel sessionTab;
     private javax.swing.JSpinner setsSpinner;
+    private javax.swing.JList<String> upperBodyList;
     private javax.swing.JList<String> workoutList;
     private javax.swing.JSpinner yearsSpinner;
     // End of variables declaration//GEN-END:variables
