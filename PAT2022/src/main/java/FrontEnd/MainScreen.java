@@ -4,7 +4,11 @@
  */
 package FrontEnd;
 
+import Backend.Exercise;
+import Backend.ExerciseManager;
+import Backend.ExerciseWithSet;
 import Backend.Routine;
+import Backend.RoutineManager;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,19 +20,21 @@ import javax.swing.DefaultListModel;
  */
 public class MainScreen extends javax.swing.JFrame
 {
-
+    ExerciseManager em = new ExerciseManager();
+    RoutineManager rm = new RoutineManager();
     /**
      * Creates new form MainScreen
      */
     public MainScreen() throws ClassNotFoundException
     {
         initComponents();
-        Routine r = new Routine();
         DefaultListModel model = new DefaultListModel();
-        System.out.println(r.getExerciseNames());
-        model.addAll(r.getExerciseNames());
+        model.addAll(em.getExerciseNames());
         upperBodyList.setModel(model);
         
+        DefaultListModel model2 = new DefaultListModel();
+        model2.addAll(rm.getExercisesInCurrentRoutine());
+        workoutList.setModel(model2);
         //if musclegroup is upper, populate to upperlist
         //if musclegroup is core, populate to corelist
         //if musclegroup is lower, populate to lowerlist
@@ -619,8 +625,12 @@ public class MainScreen extends javax.swing.JFrame
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_addButtonActionPerformed
     {//GEN-HEADEREND:event_addButtonActionPerformed
         // TODO add your handling code here:
-        String s = upperBodyList.getSelectedValue();
-        System.out.println(s);
+        int index = upperBodyList.getSelectedIndex() + 1;
+        Exercise e = em.getUpperExercise(index);
+        ExerciseWithSet ews = new ExerciseWithSet((int) setsSpinner.getValue(), (int) repsSpinner.getValue(), e.getId(), e.getName(), e.getMuscleGroup(), e.getDifficulty(), e.getDesc());
+        System.out.println("ews " + ews);
+        rm.addToExerciseInCurrentRoutine(ews);
+        
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton4ActionPerformed

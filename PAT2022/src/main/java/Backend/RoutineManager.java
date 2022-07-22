@@ -15,14 +15,14 @@ import java.util.logging.Logger;
  *
  * @author Ryang
  */
-public class RoutineManager 
+public class RoutineManager
 {
 
     //array of routines
     //getexercisesincurrentRoutine
     //AddToExerciseInCurrentRoutine(Exercise, Sets, Reps)
     private ArrayList<Routine> routines;
-    //private Routine currentRoutine = new Routine();
+    private Routine currentRoutine = new Routine();
 
     public RoutineManager()
     {
@@ -30,17 +30,17 @@ public class RoutineManager
 
     public ArrayList<String> getExercisesInCurrentRoutine()
     {
-        //return currentRoutine.getExerciseNames();
+        ArrayList<String> out = new ArrayList<>();
+        for (ExerciseWithSet e : currentRoutine.getExerciseWithSet())
+        {
+            out.add(e.getName() + ", " + e.getSets() + " sets " + e.getReps() + " reps");
+        }
+        return out;
     }
 
-    public void AddToExerciseInCurrentRoutine(String e, int sets, int reps) throws ClassNotFoundException, SQLException
+    public void addToExerciseInCurrentRoutine(ExerciseWithSet e)
     {
-        Scanner sc = new Scanner(e).useDelimiter(":");
-        String name = sc.next();
-        sc.close();
-        DB db = new DB();
-        ResultSet rs = db.query("SELECT * FROM tblexercise, WHERE `Name` = " + name);
-        
+        currentRoutine.addToArray(e);
     }
 
 }

@@ -20,7 +20,7 @@ public class Routine
 
     private ArrayList<ExerciseWithSet> ews = new ArrayList<>();
 
-    public Routine() throws ClassNotFoundException
+    public Routine()
     {
         try
         {
@@ -35,10 +35,13 @@ public class Routine
                 String desc = rs.getString(5);
                 int sets = rs.getInt(8);
                 int reps = rs.getInt(9);
-                
+
                 ews.add(new ExerciseWithSet(sets, reps, exID, name, muscleGroup, difficulty, desc));
             }
         } catch (SQLException ex)
+        {
+            Logger.getLogger(Routine.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex)
         {
             Logger.getLogger(Routine.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,9 +53,23 @@ public class Routine
         ArrayList<String> out = new ArrayList<>();
         for (ExerciseWithSet e : ews)
         {
-            out.add(e.getName() + ": " + e.getDifficulty()+ "  - " + e.getDesc());
+            out.add(e.getName() + " - " + e.getReps() + " reps  " + e.getSets() + " sets");
         }
         return out;
     }
 
+    public ArrayList<ExerciseWithSet> getExerciseWithSet()
+    {
+        ArrayList<ExerciseWithSet> out = new ArrayList<>();
+        for (ExerciseWithSet e : ews)
+        {
+            out.add(e);
+        }
+        return out;
+    }
+
+    public void addToArray(ExerciseWithSet e)
+    {
+        ews.add(e);
+    }
 }
