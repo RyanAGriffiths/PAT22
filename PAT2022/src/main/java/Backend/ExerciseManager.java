@@ -28,7 +28,7 @@ public class ExerciseManager
         {
             DB db = new DB();
             //query
-            String query = "SELECT * FROM ryangDB.tblexercise";
+            String query = "SELECT * FROM tblexercise;";
 
             ResultSet rs = db.query(query);
             while (rs.next())
@@ -42,32 +42,32 @@ public class ExerciseManager
                 exercises.add(new Exercise(id, name, muscleGroup, difficulty, desc));
 
             }
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(ExerciseManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex)
+        } catch (SQLException | ClassNotFoundException ex)
         {
             Logger.getLogger(ExerciseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        for (Exercise e : exercises)
+        {
+            addToArray(e);
+        }
     }
 
     public Exercise getUpperExercise(int i)
     {
         return upper.get(i);
-        
+
     }
-    
-     public Exercise getCoreExercise(int i)
+
+    public Exercise getCoreExercise(int i)
     {
         return core.get(i);
     }
 
-      public Exercise getLowerExercise(int i)
+    public Exercise getLowerExercise(int i)
     {
         return lower.get(i);
     }
-
 
     public ArrayList<String> getExerciseNames()
     {
@@ -76,6 +76,61 @@ public class ExerciseManager
         for (Exercise exercise : exercises)
         {
             output.add(exercise.getName());
+        }
+        return output;
+    }
+
+    public ArrayList<String> getUpperNames()
+    {
+        ArrayList<String> output = new ArrayList<>();
+
+        for (Exercise exercise : upper)
+        {
+            output.add(exercise.getName());
+        }
+        return output;
+    }
+
+    public ArrayList<String> getCoreNames()
+    {
+        ArrayList<String> output = new ArrayList<>();
+
+        for (Exercise exercise : core)
+        {
+            output.add(exercise.getName());
+        }
+        return output;
+    }
+
+    public ArrayList<String> getLowerNames()
+    {
+        ArrayList<String> output = new ArrayList<>();
+
+        for (Exercise exercise : lower)
+        {
+            output.add(exercise.getName());
+        }
+        return output;
+    }
+
+    public ArrayList<Exercise> getExercises()
+    {
+        ArrayList<Exercise> output = new ArrayList<>();
+
+        for (Exercise exercise : exercises)
+        {
+            output.add(exercise);
+        }
+        return output;
+    }
+
+    public ArrayList<String> getMuscleGroup()
+    {
+        ArrayList<String> output = new ArrayList<>();
+
+        for (Exercise exercise : exercises)
+        {
+            output.add(exercise.getMuscleGroup());
         }
         return output;
     }
@@ -91,8 +146,23 @@ public class ExerciseManager
         return output;
     }
 
-    public static void addToArray()
+    public void addToArray(Exercise e)
     {
 
+        switch (e.getMuscleGroup())
+        {
+            case "upper":
+                upper.add(e);
+                break;
+            case "core":
+                core.add(e);
+                break;
+            case "lower":
+                lower.add(e);
+                break;
+            default:
+                System.out.println("unrecognised muscle group");
+                break;
+        }
     }
 }

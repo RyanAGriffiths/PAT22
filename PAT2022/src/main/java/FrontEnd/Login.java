@@ -4,12 +4,20 @@
  */
 package FrontEnd;
 
+import Backend.DB;
 import Backend.User;
+import Backend.UserManager;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,6 +33,7 @@ public class Login extends javax.swing.JFrame
     public Login()
     {
         initComponents();
+
     }
 
     /**
@@ -46,18 +55,19 @@ public class Login extends javax.swing.JFrame
         loginButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         registerButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        logoLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ryang\\Documents\\NetBeansProjects\\PAT2022\\src\\main\\java\\FrontEnd\\logo.png")); // NOI18N
+        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
 
-        GetDakLabel.setFont(new java.awt.Font("Futura Condensed Extra", 0, 48)); // NOI18N
+        GetDakLabel.setFont(new java.awt.Font("Futura-Bold", 0, 48)); // NOI18N
         GetDakLabel.setText("GET DAK");
 
-        usernameLabel.setFont(new java.awt.Font("Futura Condensed Extra", 0, 18)); // NOI18N
+        usernameLabel.setFont(new java.awt.Font("Futura-Bold", 0, 18)); // NOI18N
         usernameLabel.setText("Username:");
 
-        passwordLabel.setFont(new java.awt.Font("Futura Condensed Extra", 0, 18)); // NOI18N
+        passwordLabel.setFont(new java.awt.Font("Futura-Bold", 0, 18)); // NOI18N
         passwordLabel.setText("Password:");
 
         usernameTextField.addActionListener(new java.awt.event.ActionListener()
@@ -106,37 +116,42 @@ public class Login extends javax.swing.JFrame
             }
         });
 
+        errorLabel.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(GetDakLabel)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(114, 114, 114)
+                            .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(150, 150, 150)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(104, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(usernameLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(passwordLabel)
-                                .addGap(21, 21, 21)
-                                .addComponent(passwordtextField, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(165, 165, 165)
-                        .addComponent(logoLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addComponent(GetDakLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(149, 149, 149)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(94, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(usernameLabel)
+                            .addComponent(passwordLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(usernameTextField)
+                            .addComponent(passwordtextField, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(89, 89, 89))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(logoLabel)
+                        .addGap(159, 159, 159))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,8 +159,10 @@ public class Login extends javax.swing.JFrame
                 .addGap(23, 23, 23)
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(GetDakLabel)
-                .addGap(39, 39, 39)
+                .addComponent(GetDakLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(errorLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameLabel)
                     .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -153,13 +170,13 @@ public class Login extends javax.swing.JFrame
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordLabel)
                     .addComponent(passwordtextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(registerButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(loginButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
-                .addGap(47, 47, 47))
+                .addGap(46, 46, 46))
         );
 
         pack();
@@ -172,35 +189,45 @@ public class Login extends javax.swing.JFrame
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_loginButtonActionPerformed
     {//GEN-HEADEREND:event_loginButtonActionPerformed
+        
         try
         {
-            //if username and password match pair in data base, dispose() and show explore page
-            Scanner sc = new Scanner(new File("C:\\Users\\Ryang\\Documents\\NetBeansProjects\\PAT2022\\src\\main\\resources\\users.txt"));
-            while (sc.hasNext())
+            DB db = new DB();
+            ResultSet rs = db.query("SELECT * FROM tblusers;");
+            boolean valid = false;
+            while (rs.next())
             {
-                String ln = sc.next();
-                Scanner lsc = new Scanner(ln).useDelimiter("#");
-                String username = lsc.next();
-                String password = lsc.next();
-                lsc.close();
+                String username = rs.getString(2);
+                String password = rs.getString(3);
+                System.out.println("username and password " + username + " " + password);
 
                 if (usernameTextField.getText().equals(username))
                 {
+                    valid = true;
                     if (passwordtextField.getText().equals(password))
                     {
-                        dispose();
-                        new MainScreen().setVisible(true);
+                        valid = true;
+                        break;
                     } else
                     {
-                        JOptionPane.showMessageDialog(null, "Please check password", "ERROR!", JOptionPane.ERROR_MESSAGE);
+                        valid = false;
                     }
                 } else
                 {
-                    JOptionPane.showMessageDialog(null, "Please check username", "ERROR!", JOptionPane.ERROR_MESSAGE);
+                    valid = false;
                 }
             }
-            sc.close();
-        } catch (FileNotFoundException ex)
+            if (valid)
+            {
+                dispose();
+                new MainScreen(rs.getInt(1)).setVisible(true);
+                //inside parameter, pass through login ID
+            } else
+            {
+                errorLabel.setForeground(Color.red);
+                errorLabel.setText("Invalid username or password");
+            }
+        } catch (ClassNotFoundException | SQLException ex)
         {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -226,6 +253,34 @@ public class Login extends javax.swing.JFrame
 //
 //        dispose();
 //        new MainScreen().setVisible(true);
+        UserManager um = new UserManager();
+        String username = usernameTextField.getText();
+        String password = passwordtextField.getText();
+        //checks if user already exists
+        if (um.doesUserExist(username))
+        {
+            errorLabel.setForeground(Color.red);
+            errorLabel.setText("This username already exists");
+        } else
+        {
+            if (username.isEmpty() || username.isBlank())
+            {
+                errorLabel.setForeground(Color.red);
+                errorLabel.setText("Please enter a username");
+            } else if (password.isEmpty())
+            {
+                errorLabel.setForeground(Color.red);
+                errorLabel.setText("Please enter a password");
+            } else
+            {
+                int c = um.registerUser(username, password);
+                JOptionPane.showMessageDialog(rootPane, "You have been registered!");
+                
+                //get last userID + 1
+                dispose();
+                new MainScreen(c).setVisible(true);
+            }
+        }
     }//GEN-LAST:event_registerButtonActionPerformed
 
     /**
@@ -276,6 +331,7 @@ public class Login extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel GetDakLabel;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel logoLabel;
     private javax.swing.JLabel passwordLabel;

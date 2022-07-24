@@ -13,12 +13,23 @@ public class ExerciseWithSet extends Exercise
     //Exercise, Sets, Reps
     private int sets;
     private int reps;
+    private int completedSets;
+    private int completedReps;
 
     public ExerciseWithSet(int sets, int reps, int id, String name, String muscleGroup, String difficulty, String desc)
     {
         super(id, name, muscleGroup, difficulty, desc);
         this.sets = sets;
         this.reps = reps;
+    }
+    
+    public ExerciseWithSet(int sets, int reps, int completedSets, int completedReps, int id, String name, String muscleGroup, String difficulty, String desc)
+    {
+        super(id, name, muscleGroup, difficulty, desc);
+        this.sets = sets;
+        this.reps = reps;
+        this.completedSets = this.completedSets;
+        this.completedReps = this.completedReps;
     }
 
 
@@ -42,10 +53,30 @@ public class ExerciseWithSet extends Exercise
         this.reps = reps;
     }
 
+    public int getCompletedSets()
+    {
+        return completedSets;
+    }
+
+    public int getCompletedReps()
+    {
+        return completedReps;
+    }
+    
+    public void setCompletedSets(int completedSets)
+    {
+        this.completedSets = completedSets;
+    }
+
+    public void setCompletedReps(int completedReps)
+    {
+        this.completedReps = completedReps;
+    }
+
     @Override
     public String toString()
     {
-        return "ExerciseWithSet{" + ", sets=" + sets + ", reps=" + reps + '}';
+        return "ExerciseWithSet{" + super.getName() + ", sets=" + sets + ", reps=" + reps + '}';
     }
     
     

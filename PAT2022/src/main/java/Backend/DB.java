@@ -22,7 +22,7 @@ public class DB {
 	private static final String url = "jdbc:mysql://102.130.115.69:3306/ryangDB";
 	private static final String username = "ryang";
 	private static final String password = "Reddam2021";
-
+ 
 	private PreparedStatement statement;
 	private ResultSet result;
 	private Connection connection;
