@@ -61,7 +61,7 @@ public class Login extends javax.swing.JFrame
 
         logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
 
-        GetDakLabel.setFont(new java.awt.Font("Futura-Bold", 0, 48)); // NOI18N
+        GetDakLabel.setFont(new java.awt.Font("Futura Condensed Extra", 0, 48)); // NOI18N
         GetDakLabel.setText("GET DAK");
 
         usernameLabel.setFont(new java.awt.Font("Futura-Bold", 0, 18)); // NOI18N

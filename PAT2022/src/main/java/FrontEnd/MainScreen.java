@@ -18,11 +18,25 @@ import javax.swing.DefaultListModel;
 public class MainScreen extends javax.swing.JFrame
 {
 
+    /*
+    Session should be the first tab because saving session data is what the user would be doing more than building a routine - picture going
+    to gym and saving session results
+      
+    Basic function of program:
+     - build your own routine
+     - save session results after completing a routine in real life in the gym
+     - show progress timeline 
+    
+    Possible additions:
+      - in timeline, sort by sessions where the user completed all the reps and sets (so where completed reps and sets >= sets and reps in routine)
+    */
     ExerciseManager em = new ExerciseManager();
     RoutineManager rm = new RoutineManager();
-    
+    //could be ArrayList to make it easier to populate list, but size must be controlled
+    ExerciseWithSet[] currentExercises = new ExerciseWithSet[5];
+    int currentExercisesSize = 0;
     private int currentLoggedIn;
-    
+
     /**
      * Creates new form MainScreen
      */
@@ -63,26 +77,24 @@ public class MainScreen extends javax.swing.JFrame
                 {
                     DefaultListModel model = new DefaultListModel();
                     model.addAll(em.getLowerNames());
-                    lowerBodyList.setModel(model);
+                    lowerList.setModel(model);
                     break;
                 }
                 default:
                     break;
             }
         }
+        
         System.out.println("upper: " + em.getUpperNames());
         System.out.println("core: " + em.getCoreNames());
         System.out.println("lower: " + em.getLowerNames());
-        
+
         //currentExercises array, adding and removing from this array
         //fill tblroutine_exercise database
         //create new array: sessionExercises array - contains all of the currentExercises of chosen routine
-        //create actrion event on spinner, when valuers change, which exercise is selected, 
-        //when you click new exercise, listener on that, load in values, spinnners value updates via getters
-        
-        //save session takes sessionExercises array, 
-        
-        
+        //create actrion event on spinner, when values change, which exercise is selected, 
+        //when click on new exercise, listener on that, load in values, spinnners value updates via getters
+        //save session takes sessionExercises array
     }
 
     /**
@@ -98,7 +110,8 @@ public class MainScreen extends javax.swing.JFrame
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jPanel4 = new javax.swing.JPanel();
-        timelineTab = new javax.swing.JTabbedPane();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        mainTab = new javax.swing.JTabbedPane();
         sessionTab = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -122,8 +135,8 @@ public class MainScreen extends javax.swing.JFrame
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         exploreTab = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
+        exercisesTab = new javax.swing.JTabbedPane();
+        upperBodyPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         upperBodyList = new javax.swing.JList<>();
         upperAddButton = new javax.swing.JButton();
@@ -132,32 +145,32 @@ public class MainScreen extends javax.swing.JFrame
         upperSetSpinner = new javax.swing.JSpinner();
         RepLabel = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        corePanel = new javax.swing.JPanel();
+        coreScrollPane = new javax.swing.JScrollPane();
         coreList = new javax.swing.JList<>();
         coreAddButton = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        CoreExerciseLabel = new javax.swing.JLabel();
         coreRepSpinner = new javax.swing.JSpinner();
         coreSetSpinner = new javax.swing.JSpinner();
-        RepLabel1 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        lowerBodyList = new javax.swing.JList<>();
+        coreRepLabel = new javax.swing.JLabel();
+        coreSetsLabel = new javax.swing.JLabel();
+        lowerBodyPanel = new javax.swing.JPanel();
+        lowerScrollPane = new javax.swing.JScrollPane();
+        lowerList = new javax.swing.JList<>();
         lowerAddButton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        lowerExerciseLabel = new javax.swing.JLabel();
         lowerRepSpinner = new javax.swing.JSpinner();
         lowerSetSpinner = new javax.swing.JSpinner();
-        RepLabel2 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lowerRepsLabel = new javax.swing.JLabel();
+        lowerSetsLabel = new javax.swing.JLabel();
         saveButton = new javax.swing.JButton();
-        jScrollPane6 = new javax.swing.JScrollPane();
+        routineListScrollPane = new javax.swing.JScrollPane();
         routineList = new javax.swing.JList<>();
         routineLabel = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        nameLabel = new javax.swing.JLabel();
         nameOfRoutineTextField = new javax.swing.JTextField();
         removeButton = new javax.swing.JButton();
-        progressTab = new javax.swing.JPanel();
+        timelineTab = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         timelineList = new javax.swing.JList<>();
         jButton5 = new javax.swing.JButton();
@@ -166,9 +179,9 @@ public class MainScreen extends javax.swing.JFrame
         jButton7 = new javax.swing.JButton();
         jScrollPane8 = new javax.swing.JScrollPane();
         setsAndRepsList = new javax.swing.JList<>();
-        logoLabel = new javax.swing.JLabel();
+        logoIconLabel = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        logLabel = new javax.swing.JLabel();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>()
         {
@@ -357,9 +370,9 @@ public class MainScreen extends javax.swing.JFrame
                 .addGap(0, 7, Short.MAX_VALUE))
         );
 
-        timelineTab.addTab("Session", sessionTab);
+        mainTab.addTab("Session", sessionTab);
 
-        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        exercisesTab.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
         upperBodyList.setModel(new javax.swing.AbstractListModel<String>()
         {
@@ -384,46 +397,46 @@ public class MainScreen extends javax.swing.JFrame
 
         jLabel7.setText("Sets");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout upperBodyPanelLayout = new javax.swing.GroupLayout(upperBodyPanel);
+        upperBodyPanel.setLayout(upperBodyPanelLayout);
+        upperBodyPanelLayout.setHorizontalGroup(
+            upperBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(upperBodyPanelLayout.createSequentialGroup()
                 .addContainerGap(29, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGroup(upperBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, upperBodyPanelLayout.createSequentialGroup()
                         .addComponent(upperAddButton)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, upperBodyPanelLayout.createSequentialGroup()
                         .addComponent(RepLabel)
                         .addGap(18, 18, 18)
                         .addComponent(upperRepSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, upperBodyPanelLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
                         .addComponent(upperSetSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, upperBodyPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, upperBodyPanelLayout.createSequentialGroup()
                         .addComponent(exerciseLabel)
                         .addGap(90, 90, 90))))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+        upperBodyPanelLayout.setVerticalGroup(
+            upperBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, upperBodyPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(exerciseLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(upperBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(upperRepSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(RepLabel))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(upperBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(upperSetSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
@@ -431,7 +444,7 @@ public class MainScreen extends javax.swing.JFrame
                 .addGap(55, 55, 55))
         );
 
-        jTabbedPane1.addTab("Upper Body", jPanel3);
+        exercisesTab.addTab("Upper Body", upperBodyPanel);
 
         coreList.setModel(new javax.swing.AbstractListModel<String>()
         {
@@ -439,7 +452,7 @@ public class MainScreen extends javax.swing.JFrame
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane4.setViewportView(coreList);
+        coreScrollPane.setViewportView(coreList);
 
         coreAddButton.setText("add");
         coreAddButton.addActionListener(new java.awt.event.ActionListener()
@@ -450,64 +463,64 @@ public class MainScreen extends javax.swing.JFrame
             }
         });
 
-        jLabel5.setText("Exercises");
+        CoreExerciseLabel.setText("Exercises");
 
-        RepLabel1.setText("Reps");
+        coreRepLabel.setText("Reps");
 
-        jLabel9.setText("Sets");
+        coreSetsLabel.setText("Sets");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout corePanelLayout = new javax.swing.GroupLayout(corePanel);
+        corePanel.setLayout(corePanelLayout);
+        corePanelLayout.setHorizontalGroup(
+            corePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(corePanelLayout.createSequentialGroup()
                 .addContainerGap(29, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(RepLabel1)
+                .addGroup(corePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(coreScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, corePanelLayout.createSequentialGroup()
+                        .addComponent(coreRepLabel)
                         .addGap(18, 18, 18)
                         .addComponent(coreRepSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, corePanelLayout.createSequentialGroup()
+                        .addComponent(coreSetsLabel)
                         .addGap(18, 18, 18)
                         .addComponent(coreSetSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(coreAddButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(corePanelLayout.createSequentialGroup()
                 .addGap(94, 94, 94)
-                .addComponent(jLabel5)
+                .addComponent(CoreExerciseLabel)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        corePanelLayout.setVerticalGroup(
+            corePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, corePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5)
+                .addComponent(CoreExerciseLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(coreScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(corePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(coreRepSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RepLabel1))
+                    .addComponent(coreRepLabel))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(corePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(coreSetSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(coreSetsLabel))
                 .addGap(18, 18, 18)
                 .addComponent(coreAddButton)
                 .addGap(55, 55, 55))
         );
 
-        jTabbedPane1.addTab("Core", jPanel1);
+        exercisesTab.addTab("Core", corePanel);
 
-        lowerBodyList.setModel(new javax.swing.AbstractListModel<String>()
+        lowerList.setModel(new javax.swing.AbstractListModel<String>()
         {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane5.setViewportView(lowerBodyList);
+        lowerScrollPane.setViewportView(lowerList);
 
         lowerAddButton.setText("add");
         lowerAddButton.addActionListener(new java.awt.event.ActionListener()
@@ -518,58 +531,65 @@ public class MainScreen extends javax.swing.JFrame
             }
         });
 
-        jLabel4.setText("Exercises");
+        lowerExerciseLabel.setText("Exercises");
 
-        RepLabel2.setText("Reps");
+        lowerRepsLabel.setText("Reps");
 
-        jLabel10.setText("Sets");
+        lowerSetsLabel.setText("Sets");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout lowerBodyPanelLayout = new javax.swing.GroupLayout(lowerBodyPanel);
+        lowerBodyPanel.setLayout(lowerBodyPanelLayout);
+        lowerBodyPanelLayout.setHorizontalGroup(
+            lowerBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lowerBodyPanelLayout.createSequentialGroup()
                 .addContainerGap(29, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(RepLabel2)
+                .addGroup(lowerBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lowerScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lowerBodyPanelLayout.createSequentialGroup()
+                        .addComponent(lowerRepsLabel)
                         .addGap(18, 18, 18)
                         .addComponent(lowerRepSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lowerBodyPanelLayout.createSequentialGroup()
+                        .addComponent(lowerSetsLabel)
                         .addGap(18, 18, 18)
                         .addComponent(lowerSetSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lowerAddButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(lowerBodyPanelLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
-                .addComponent(jLabel4)
+                .addComponent(lowerExerciseLabel)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        lowerBodyPanelLayout.setVerticalGroup(
+            lowerBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lowerBodyPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
+                .addComponent(lowerExerciseLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lowerScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(lowerBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lowerRepSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RepLabel2))
+                    .addComponent(lowerRepsLabel))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(lowerBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lowerSetSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
+                    .addComponent(lowerSetsLabel))
                 .addGap(18, 18, 18)
                 .addComponent(lowerAddButton)
                 .addGap(55, 55, 55))
         );
 
-        jTabbedPane1.addTab("Lower Body", jPanel2);
+        exercisesTab.addTab("Lower Body", lowerBodyPanel);
 
         saveButton.setText("save");
+        saveButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         routineList.setModel(new javax.swing.AbstractListModel<String>()
         {
@@ -577,20 +597,27 @@ public class MainScreen extends javax.swing.JFrame
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane6.setViewportView(routineList);
+        routineListScrollPane.setViewportView(routineList);
 
         routineLabel.setText("Routine");
 
-        jLabel8.setText("Name your Routine");
+        nameLabel.setText("Name your Routine");
 
         removeButton.setText("remove");
+        removeButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                removeButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout exploreTabLayout = new javax.swing.GroupLayout(exploreTab);
         exploreTab.setLayout(exploreTabLayout);
         exploreTabLayout.setHorizontalGroup(
             exploreTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(exploreTabLayout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(exercisesTab, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(exploreTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(exploreTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(exploreTabLayout.createSequentialGroup()
@@ -600,17 +627,17 @@ public class MainScreen extends javax.swing.JFrame
                             .addGap(18, 18, 18)
                             .addGroup(exploreTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(nameOfRoutineTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8)))
+                                .addComponent(nameLabel)))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, exploreTabLayout.createSequentialGroup()
                             .addGap(136, 136, 136)
                             .addComponent(removeButton)))
                     .addGroup(exploreTabLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(routineListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(exploreTabLayout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addComponent(routineLabel)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         exploreTabLayout.setVerticalGroup(
             exploreTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -618,23 +645,24 @@ public class MainScreen extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(exploreTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(exploreTabLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 17, Short.MAX_VALUE)
                         .addComponent(routineLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(routineListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4)
                         .addComponent(removeButton)
                         .addGap(34, 34, 34)
-                        .addComponent(jLabel8)
+                        .addComponent(nameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(nameOfRoutineTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(saveButton))
-                    .addComponent(jTabbedPane1))
+                        .addGap(18, 18, 18)
+                        .addComponent(saveButton)
+                        .addGap(22, 22, 22))
+                    .addComponent(exercisesTab))
                 .addContainerGap())
         );
 
-        timelineTab.addTab("Build a Routine", exploreTab);
+        mainTab.addTab("Build a Routine", exploreTab);
 
         timelineList.setModel(new javax.swing.AbstractListModel<String>()
         {
@@ -660,28 +688,28 @@ public class MainScreen extends javax.swing.JFrame
         });
         jScrollPane8.setViewportView(setsAndRepsList);
 
-        javax.swing.GroupLayout progressTabLayout = new javax.swing.GroupLayout(progressTab);
-        progressTab.setLayout(progressTabLayout);
-        progressTabLayout.setHorizontalGroup(
-            progressTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(progressTabLayout.createSequentialGroup()
+        javax.swing.GroupLayout timelineTabLayout = new javax.swing.GroupLayout(timelineTab);
+        timelineTab.setLayout(timelineTabLayout);
+        timelineTabLayout.setHorizontalGroup(
+            timelineTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(timelineTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
-                .addGroup(progressTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(timelineTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton5)
                     .addComponent(sortByLabek)
                     .addComponent(jButton6)
                     .addComponent(jButton7))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
-        progressTabLayout.setVerticalGroup(
-            progressTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(progressTabLayout.createSequentialGroup()
-                .addGroup(progressTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(progressTabLayout.createSequentialGroup()
+        timelineTabLayout.setVerticalGroup(
+            timelineTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(timelineTabLayout.createSequentialGroup()
+                .addGroup(timelineTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(timelineTabLayout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(sortByLabek)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -690,17 +718,17 @@ public class MainScreen extends javax.swing.JFrame
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7))
-                    .addGroup(progressTabLayout.createSequentialGroup()
+                    .addGroup(timelineTabLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addGroup(progressTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(timelineTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                             .addComponent(jScrollPane8))))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        timelineTab.addTab("Timeline", progressTab);
+        mainTab.addTab("Timeline", timelineTab);
 
-        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
+        logoIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
 
         cancelButton.setText("cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener()
@@ -711,8 +739,8 @@ public class MainScreen extends javax.swing.JFrame
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Futura-Bold", 0, 14)); // NOI18N
-        jLabel1.setText("GET DAK™™™™™™™™™™");
+        logLabel.setFont(new java.awt.Font("Futura Condensed Extra", 0, 14)); // NOI18N
+        logLabel.setText("GET DAK™");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -721,15 +749,15 @@ public class MainScreen extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(timelineTab)
+                    .addComponent(mainTab)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(logoLabel)
+                                .addComponent(logoIconLabel)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel1)
+                                .addComponent(logLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cancelButton)))
                         .addContainerGap())))
@@ -738,13 +766,13 @@ public class MainScreen extends javax.swing.JFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(timelineTab, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mainTab, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(logoIconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1))
+                        .addComponent(logLabel))
                     .addComponent(cancelButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -761,15 +789,21 @@ public class MainScreen extends javax.swing.JFrame
     private void upperAddButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_upperAddButtonActionPerformed
     {//GEN-HEADEREND:event_upperAddButtonActionPerformed
         // TODO add your handling code here:
-
+        //Not making currentExercises an ArrayList because a routine can only have 5 ExerciseWithSets (easier to manage but not really necessary)
         int index = upperBodyList.getSelectedIndex();
         Exercise e = em.getUpperExercise(index);
-        ExerciseWithSet ews = new ExerciseWithSet((int) upperSetSpinner.getValue(), (int) upperRepSpinner.getValue(), e.getId(), e.getName(), e.getMuscleGroup(), e.getDifficulty(), e.getDesc());
-        rm.addToExerciseInCurrentRoutine(ews);
-        System.out.println(ews);
-        System.out.println(e.getName());
+        currentExercises[currentExercisesSize + 1] = new ExerciseWithSet((int) upperSetSpinner.getValue(), (int) upperRepSpinner.getValue(), e.getId(), e.getName(), e.getMuscleGroup(), e.getDifficulty(), e.getDesc());
+        currentExercises.toString();
+        ArrayList<ExerciseWithSet> ews = new ArrayList<>();
+        for (int i = 0; i < currentExercisesSize; i++)
+        {
+            ews.add(currentExercises[i]);
+        }
         
-
+        DefaultListModel m = new DefaultListModel();
+        m.addAll(ews);
+        routineList.setModel(m);
+        System.out.println(ews);
     }//GEN-LAST:event_upperAddButtonActionPerformed
 
     private void lowerAddButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_lowerAddButtonActionPerformed
@@ -792,6 +826,24 @@ public class MainScreen extends javax.swing.JFrame
     {//GEN-HEADEREND:event_jComboBox1ActionPerformed
         // When 
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_removeButtonActionPerformed
+    {//GEN-HEADEREND:event_removeButtonActionPerformed
+        // TODO add your handling code here:
+
+        int index = upperBodyList.getSelectedIndex();
+        for (int i = index; i < currentExercisesSize; i++)
+        {
+            currentExercises[i] = currentExercises[i + 1];
+        }
+        currentExercisesSize--;
+    }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_saveButtonActionPerformed
+    {//GEN-HEADEREND:event_saveButtonActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_saveButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -840,17 +892,21 @@ public class MainScreen extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel CoreExerciseLabel;
     private javax.swing.JLabel RepLabel;
-    private javax.swing.JLabel RepLabel1;
-    private javax.swing.JLabel RepLabel2;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton coreAddButton;
     private javax.swing.JList<String> coreList;
+    private javax.swing.JPanel corePanel;
+    private javax.swing.JLabel coreRepLabel;
     private javax.swing.JSpinner coreRepSpinner;
+    private javax.swing.JScrollPane coreScrollPane;
     private javax.swing.JSpinner coreSetSpinner;
+    private javax.swing.JLabel coreSetsLabel;
     private javax.swing.JLabel dateLabel;
     private javax.swing.JSpinner daysSpinner;
     private javax.swing.JLabel exerciseLabel;
+    private javax.swing.JTabbedPane exercisesTab;
     private javax.swing.JPanel exploreTab;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -858,8 +914,6 @@ public class MainScreen extends javax.swing.JFrame
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -868,49 +922,48 @@ public class MainScreen extends javax.swing.JFrame
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel logoLabel;
+    private javax.swing.JLabel logLabel;
+    private javax.swing.JLabel logoIconLabel;
     private javax.swing.JButton lowerAddButton;
-    private javax.swing.JList<String> lowerBodyList;
+    private javax.swing.JPanel lowerBodyPanel;
+    private javax.swing.JLabel lowerExerciseLabel;
+    private javax.swing.JList<String> lowerList;
     private javax.swing.JSpinner lowerRepSpinner;
+    private javax.swing.JLabel lowerRepsLabel;
+    private javax.swing.JScrollPane lowerScrollPane;
     private javax.swing.JSpinner lowerSetSpinner;
+    private javax.swing.JLabel lowerSetsLabel;
+    private javax.swing.JTabbedPane mainTab;
     private javax.swing.JSpinner monthsSpinner;
+    private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameOfRoutineTextField;
-    private javax.swing.JPanel progressTab;
     private javax.swing.JButton removeButton;
     private javax.swing.JSpinner repsSpinner;
     private javax.swing.JLabel routineLabel;
     private javax.swing.JList<String> routineList;
+    private javax.swing.JScrollPane routineListScrollPane;
     private javax.swing.JButton saveButton;
     private javax.swing.JPanel sessionTab;
     private javax.swing.JList<String> setsAndRepsList;
     private javax.swing.JSpinner setsSpinner;
     private javax.swing.JLabel sortByLabek;
     private javax.swing.JList<String> timelineList;
-    private javax.swing.JTabbedPane timelineTab;
+    private javax.swing.JPanel timelineTab;
     private javax.swing.JButton upperAddButton;
     private javax.swing.JList<String> upperBodyList;
+    private javax.swing.JPanel upperBodyPanel;
     private javax.swing.JSpinner upperRepSpinner;
     private javax.swing.JSpinner upperSetSpinner;
     private javax.swing.JSpinner yearsSpinner;
